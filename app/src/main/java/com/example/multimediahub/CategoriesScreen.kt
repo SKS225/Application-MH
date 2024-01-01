@@ -1,7 +1,8 @@
 package com.example.multimediahub
 
+import android.content.Context
+import android.content.Intent
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -15,7 +16,6 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
-import androidx.compose.material.icons.filled.ExitToApp
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.rounded.Done
 import androidx.compose.material3.Button
@@ -42,6 +42,7 @@ import androidx.compose.ui.unit.sp
 
 @Composable
 fun CategoriesScreen(
+    context: Context,
     modifier: Modifier = Modifier
         .fillMaxSize()
         //.background(Color.Black)
@@ -66,9 +67,9 @@ fun CategoriesScreen(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.Center
             ) {
-                ButtonItem("Image",R.drawable.image4)
+                ButtonItem("Image",R.drawable.image4,context)
                 Spacer(modifier = Modifier.width(10.dp))
-                ButtonItem("Video",R.drawable.video2)
+                ButtonItem("Video",R.drawable.video2,context)
             }
 
             Spacer(modifier = Modifier.height(20.dp))
@@ -77,9 +78,9 @@ fun CategoriesScreen(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.Center
             ) {
-                ButtonItem("Music",R.drawable.music1)
+                ButtonItem("Music",R.drawable.music1,context)
                 Spacer(modifier = Modifier.width(10.dp))
-                ButtonItem("PDF",R.drawable.pdf1)
+                ButtonItem("PDF",R.drawable.pdf1,context)
             }
         }
 
@@ -154,9 +155,21 @@ fun SwitchButton(){
 }
 
 @Composable
-fun ButtonItem(text:String,res:Int){
+fun ButtonItem(text:String,res:Int,context: Context){
+    //context = LocalContext.current
     Button(
-        onClick = { /*TODO*/ },
+        onClick = {
+
+            val intent = when (text){
+                "Image" -> Intent(context, MainActivity2::class.java)
+                "Video" -> Intent(context, MainActivity3::class.java)
+                "Music" -> Intent(context, MainActivity4::class.java)
+                "PDF" -> Intent(context, MainActivity5::class.java)
+                else -> null
+            }
+
+            context.startActivity(intent)
+        },
         shape = RoundedCornerShape(10.dp),
         colors = ButtonDefaults.buttonColors(Color.Transparent),
         modifier = Modifier

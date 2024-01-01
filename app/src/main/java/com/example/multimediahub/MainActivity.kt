@@ -4,31 +4,37 @@ import android.Manifest
 import android.app.Activity
 import android.content.Intent
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.compose.setContent
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.annotation.RequiresApi
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.multimediahub.ui.theme.MultimediaHubTheme
 
 class MainActivity : ComponentActivity() {
 
+    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     private val permissionsToRequest = arrayOf(
         Manifest.permission.READ_MEDIA_IMAGES,
         Manifest.permission.READ_MEDIA_AUDIO,
         Manifest.permission.READ_MEDIA_VIDEO
     )
 
+    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             MultimediaHubTheme {
+                val context = LocalContext.current
 
                 val viewModel = viewModel<MainViewModel>()
                 val dialogQueue = viewModel.visiblePermissionDialogQueue
@@ -100,5 +106,3 @@ fun Activity.openAppSettings(){
         Uri.fromParts("package", packageName,null)
     ).also(::startActivity)
 }
-
-
